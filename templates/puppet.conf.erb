@@ -1,0 +1,7 @@
+[main]
+ssldir=<%= scope.lookupvar('puppetagent::config::ssldir') %>
+
+[agent]
+environment=<%= scope.lookupvar('puppetagent::config::env') %>
+server=<%= scope.lookupvar('puppetagent::config::master') %>
+pluginsync=true
