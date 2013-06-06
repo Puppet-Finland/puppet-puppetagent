@@ -31,7 +31,7 @@ class puppetagent::cron(
 {
 
     if $report_only_errors == 'true' {
-        $cron_command = 'puppet agent --onetime --no-daemonize --verbose --color=false|grep ^err'
+        $cron_command = 'puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err'
     } else {
         $cron_command = 'puppet agent --onetime --no-daemonize --verbose --color=false'
     }
