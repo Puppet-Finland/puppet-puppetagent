@@ -14,6 +14,9 @@
 # [*report_only_errors*]
 #   Suppress all cron output except errors. This is useful for reducing the 
 #   amount of emails cron sends.
+# [*email*]
+#   Email address where notifications are sent. Defaults to top-scope variable 
+#   $::servermonitor.
 #
 # == Examples
 #
@@ -26,7 +29,8 @@ class puppetagent::cron(
     $hour = '*',
     $minute = '50',
     $weekday = '*',
-    $report_only_errors = 'true'
+    $report_only_errors = 'true',
+    $email = $::servermonitor
 )
 {
 
@@ -41,6 +45,7 @@ class puppetagent::cron(
         user => root,
         hour => $hour,
         minute => $minute,
-        weekday => $weekday
+        weekday => $weekday,
+        environment => "MAILTO=${email}",
     }
 }
