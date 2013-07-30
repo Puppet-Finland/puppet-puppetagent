@@ -11,6 +11,10 @@
 #   Minute(s) when the agent gets run. Defaults to 50.
 # [*weekday*]
 #   Weekday(s) when the agent gets run. Defaults to * (all weekdays).
+# [*maxdelay*]
+#   Maximum delay in seconds before starting the puppet run. Set sufficiently 
+#   high to prevent the puppetmaster getting overloaded with simultaneous client 
+#   connections. Defaults to 60 (seconds).
 # [*report_only_errors*]
 #   Suppress all cron output except errors. This is useful for reducing the 
 #   amount of emails cron sends.
@@ -24,20 +28,22 @@
 #     hour => '3',
 #     minute => '35'
 #     weekday => '1-5',
+#     maxdelay => 600,
 #
 class puppetagent::cron(
     $hour = '*',
     $minute = '50',
     $weekday = '*',
+    $maxdelay = 60,
     $report_only_errors = 'true',
     $email = $::servermonitor
 )
 {
 
     if $report_only_errors == 'true' {
-        $cron_command = 'puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err'
+        $cron_command = "sleep `shuf -i 0-${maxdelay} -n 1 -z` && puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err"
     } else {
-        $cron_command = 'puppet agent --onetime --no-daemonize --verbose --color=false'
+        $cron_command = "sleep `shuf -i 0-${maxdelay} -n 1 -z` && puppet agent --onetime --no-daemonize --verbose --color=false"
     }
 
     cron { 'puppetagent-cron':
