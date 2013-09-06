@@ -3,18 +3,22 @@
 #
 # Configures puppet agent
 #
-class puppetagent::config(
+class puppetagent::config
+(
     $ssldir,
     $master,
     $env
 )
 {
+
+    include puppetagent::params
+
     file { 'puppetagent-puppet.conf':
-        name => '/etc/puppet/puppet.conf',
+        name => "${::puppetagent::params::config_file}",
         ensure => present,
         content => template('puppetagent/puppet.conf.erb'),
         owner => root,
-        group => root,
+        group => "${::puppetagent::params::admingroup}",
         mode => 644,
     }
 }
