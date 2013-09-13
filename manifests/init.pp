@@ -32,15 +32,21 @@
 # BSD-license
 # See file LICENSE for details
 #
-class puppetagent(
+class puppetagent
+(
     $ssldir = '/etc/puppet/ssl',
     $master = "puppet.$domain",
     $env = 'production'
 )
 {
+
+# Rationale for this is explained in init.pp of the sshd module
+if hiera('manage_puppetagent') != 'false' {
+
     class { 'puppetagent::config':
         ssldir => $ssldir,
         master => $master,
         env => $env,
     }
+}
 }
