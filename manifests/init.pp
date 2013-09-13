@@ -41,7 +41,7 @@ class puppetagent
 {
 
 # Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_puppetagent') != 'false' {
+if hiera('manage_puppetagent', 'true') != 'false' {
 
     class { 'puppetagent::config':
         ssldir => $ssldir,
