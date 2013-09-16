@@ -40,10 +40,17 @@ class puppetagent::cron(
 )
 {
 
+    include puppetagent::params
+
+    # On FreeBSD we need 'shuffle' to produce random numbers for sleep
+    if $operatingsystem == 'FreeBSD' {
+        include shuffle
+    }
+
     if $report_only_errors == 'true' {
-        $cron_command = "sleep `shuf -i 0-${maxdelay} -n 1 -z` && puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err"
+        $cron_command = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err"
     } else {
-        $cron_command = "sleep `shuf -i 0-${maxdelay} -n 1 -z` && puppet agent --onetime --no-daemonize --verbose --color=false"
+        $cron_command = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false"
     }
 
     cron { 'puppetagent-cron':
@@ -52,6 +59,6 @@ class puppetagent::cron(
         hour => $hour,
         minute => $minute,
         weekday => $weekday,
-        environment => "MAILTO=${email}",
+        environment => [ 'PATH=/bin:/usr/bin:/usr/local/bin', "MAILTO=${email}" ],
     }
 }
