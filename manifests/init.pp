@@ -6,9 +6,6 @@
 #
 # == Parameters 
 #
-# [*ssldir*]
-#   The directory where puppet's SSL keys are store. Defaults to 
-#   /etc/puppet/ssl.
 # [*env*]
 #    Puppet environment this node will use. Defaults to "production".
 # [*master*]
@@ -17,7 +14,6 @@
 # == Examples
 #
 #   class { 'puppetagent': 
-#     ssldir => '/var/lib/puppet/ssl',
 #     env => 'testing',
 #     master => 'puppet.qantar.net',
 #   }
@@ -34,7 +30,6 @@
 #
 class puppetagent
 (
-    $ssldir = '/etc/puppet/ssl',
     $master = "puppet.$domain",
     $env = 'production'
 )
@@ -44,7 +39,6 @@ class puppetagent
 if hiera('manage_puppetagent', 'true') != 'false' {
 
     class { 'puppetagent::config':
-        ssldir => $ssldir,
         master => $master,
         env => $env,
     }

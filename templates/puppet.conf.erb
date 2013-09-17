@@ -1,5 +1,5 @@
 [main]
-ssldir=<%= scope.lookupvar('puppetagent::config::ssldir') %>
+ssldir=<%= scope.lookupvar('puppetagent::params::ssl_dir') %>
 
 [agent]
 environment=<%= scope.lookupvar('puppetagent::config::env') %>

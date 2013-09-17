@@ -5,12 +5,10 @@
 #
 class puppetagent::config
 (
-    $ssldir,
     $master,
     $env
 )
 {
-
     include puppetagent::params
 
     file { 'puppetagent-puppet.conf':
