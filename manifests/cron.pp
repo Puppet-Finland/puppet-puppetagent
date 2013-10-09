@@ -5,6 +5,9 @@
 #
 # == Parameters
 #
+# [*status*]
+#   Status of the cronjob. Valid values 'present' and 'absent'. Defaults to 
+#   'present'.
 # [*hour*]
 #   Hour(s) when the agent gets run. Defaults to * (all hours).
 # [*minute*]
@@ -31,6 +34,7 @@
 #     maxdelay => 600,
 #
 class puppetagent::cron(
+    $status = 'present',
     $hour = '*',
     $minute = '50',
     $weekday = '*',
@@ -54,6 +58,7 @@ class puppetagent::cron(
     }
 
     cron { 'puppetagent-cron':
+        ensure => $status,
         command => $cron_command,
         user => root,
         hour => $hour,
