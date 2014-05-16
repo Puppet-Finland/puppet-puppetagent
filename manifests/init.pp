@@ -10,6 +10,10 @@
 #    Puppet environment this node will use. Defaults to "production".
 # [*master*]
 #   Puppetmaster's IP address. Defaults to "puppet.$::domain".
+# [*enable*]
+#   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
+#   false. If you run puppet manually or via cron you want to use false. 
+#   Defaults to false.
 #
 # == Examples
 #
@@ -31,7 +35,8 @@
 class puppetagent
 (
     $master = "puppet.$domain",
-    $env = 'production'
+    $env = 'production',
+    $enable = false
 )
 {
 
@@ -41,6 +46,10 @@ if hiera('manage_puppetagent', 'true') != 'false' {
     class { 'puppetagent::config':
         master => $master,
         env => $env,
+    }
+
+    class { 'puppetagent::service':
+        enable => $enable,
     }
 }
 }
