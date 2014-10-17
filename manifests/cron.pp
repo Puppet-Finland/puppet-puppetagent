@@ -18,9 +18,9 @@
 #   Maximum delay in seconds before starting the puppet run. Set sufficiently 
 #   high to prevent the puppetmaster getting overloaded with simultaneous client 
 #   connections. Defaults to 60 (seconds).
-# [*report_only_errors*]
-#   Suppress all cron output except errors. This is useful for reducing the 
-#   amount of emails cron sends.
+# [*report*]
+#   What to report. Useful for reducing the amount of emails cron sends. Valid 
+#   values 'everything', 'changes' and 'errors'. Defaults to 'errors'.
 # [*email*]
 #   Email address where notifications are sent. Defaults to top-scope variable 
 #   $::servermonitor.
@@ -40,7 +40,7 @@ class puppetagent::cron(
     $minute = '50',
     $weekday = '*',
     $maxdelay = 60,
-    $report_only_errors = 'true',
+    $report = 'errors',
     $email = $::servermonitor
 )
 {
@@ -52,10 +52,16 @@ class puppetagent::cron(
         include shuffle
     }
 
-    if $report_only_errors == 'true' {
-        $cron_command = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false 2>&1|grep ^err"
+    $basecmd = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false"
+
+    if $report == 'everything' {
+        $cron_command = "${basecmd}"
+    } elsif $report == 'changes' {
+        $cron_command = "${basecmd} 2>&1|grep -v \"Info:\"|grep -v \"Finished catalog run\""
+    } elsif $report == 'errors' {
+        $cron_command = "${basecmd} 2>&1|grep ^err"
     } else {
-        $cron_command = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false"
+        fail("Invalid value $report for parameter $report")
     }
 
     cron { 'puppetagent-cron':
