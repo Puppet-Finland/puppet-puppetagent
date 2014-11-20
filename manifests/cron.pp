@@ -28,10 +28,11 @@
 # == Examples
 #
 #   class { 'puppetagent::cron':
-#     hour => '3',
-#     minute => '35'
-#     weekday => '1-5',
-#     maxdelay => 600,
+#       hour => '3',
+#       minute => '35'
+#       weekday => '1-5',
+#       maxdelay => 600,
+#   }
 #
 class puppetagent::cron(
     $status = 'present',

@@ -18,19 +18,19 @@
 # == Examples
 #
 #   class { 'puppetagent': 
-#     env => 'testing',
-#     master => 'puppet.qantar.net',
+#       env => 'testing',
+#       master => 'puppet.qantar.net',
 #   }
 #
 # == Authors
 #
 # Samuli Seppänen <samuli.seppanen@gmail.com>
+#
 # Samuli Seppänen <samuli@openvpn.net>
 #
 # == License
 #
-# BSD-license
-# See file LICENSE for details
+# BSD-license. See file LICENSE for details.
 #
 class puppetagent
 (
