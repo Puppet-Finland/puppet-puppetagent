@@ -5,11 +5,13 @@
 #
 class puppetagent::params {
 
+    include ::os::params
+
     case $::osfamily {
         'RedHat': {
             $config_file = '/etc/puppet/puppet.conf'
             $admingroup = 'root'
-            $shuf_base_cmd = 'shuf -n 1 -z -i 0-' 
+            $shuf_base_cmd = 'shuf -n 1 -z -i 0-'
             $ssldir = '/var/lib/puppet/ssl'
             $rundir = '/var/run/puppet'
             $service_name = 'puppet'
@@ -17,7 +19,7 @@ class puppetagent::params {
         'Debian': {
             $config_file = '/etc/puppet/puppet.conf'
             $admingroup = 'root'
-            $shuf_base_cmd = 'shuf -n 1 -z -i 0-' 
+            $shuf_base_cmd = 'shuf -n 1 -z -i 0-'
             $ssldir = '/var/lib/puppet/ssl'
             $rundir = '/var/run/puppet'
             $service_name = 'puppet'
@@ -30,7 +32,7 @@ class puppetagent::params {
             $rundir = '/var/run/puppet'
             $service_name = 'puppet'
         }
-        default: { 
+        default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
         }
     }

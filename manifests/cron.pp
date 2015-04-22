@@ -5,7 +5,7 @@
 #
 # == Parameters
 #
-# [*status*]
+# [*ensure*]
 #   Status of the cronjob. Valid values 'present' and 'absent'. Defaults to 
 #   'present'.
 # [*hour*]
@@ -34,43 +34,43 @@
 #       maxdelay => 600,
 #   }
 #
-class puppetagent::cron(
-    $status = 'present',
+class puppetagent::cron
+(
+    $ensure = 'present',
     $hour = '*',
     $minute = '50',
     $weekday = '*',
     $maxdelay = 60,
     $report = 'errors',
     $email = $::servermonitor
-)
+
+) inherits puppetagent::params
 {
 
-    include puppetagent::params
-
     # On FreeBSD we need 'shuffle' to produce random numbers for sleep
-    if $operatingsystem == 'FreeBSD' {
-        include shuffle
+    if $::operatingsystem == 'FreeBSD' {
+        include ::shuffle
     }
 
     $basecmd = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false"
 
     if $report == 'everything' {
-        $cron_command = "${basecmd}"
+        $cron_command = $basecmd
     } elsif $report == 'changes' {
         $cron_command = "${basecmd} 2>&1|grep -v \"Info:\"|grep -v \"Finished catalog run\""
     } elsif $report == 'errors' {
         $cron_command = "${basecmd} 2>&1|grep ^err"
     } else {
-        fail("Invalid value $report for parameter $report")
+        fail("Invalid value ${report} for parameter ${report}")
     }
 
     cron { 'puppetagent-cron':
-        ensure => $status,
-        command => $cron_command,
-        user => root,
-        hour => $hour,
-        minute => $minute,
-        weekday => $weekday,
+        ensure      => $ensure,
+        command     => $cron_command,
+        user        => root,
+        hour        => $hour,
+        minute      => $minute,
+        weekday     => $weekday,
         environment => [ 'PATH=/bin:/usr/bin:/usr/local/bin', "MAILTO=${email}" ],
     }
 }

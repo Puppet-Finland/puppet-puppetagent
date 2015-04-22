@@ -1,0 +1,12 @@
+{
+  "name": "puppetfinland-puppetagent",
+  "version": "0.3.1",
+  "author": "Puppet-Finland team",
+  "license": "BSD license",
+  "summary": "Setup puppetagent",
+  "source": "https://github.com/Puppet-Finland/puppetagent.git",
+  "project_page": "https://github.com/Puppet-Finland/puppetagent",
+  "dependencies": [
+    { "name": "puppetfinland/os", "version_requirement": ">= 0.5.6" }
+  ]
+}

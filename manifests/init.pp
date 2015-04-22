@@ -4,8 +4,11 @@
 # Class for configuring puppet agents. Does not handle puppet agent installation 
 # due to a chicken-and-egg problem.
 #
-# == Parameters 
+# == Parameters
 #
+# [*manage*]
+#  Whether to manage the Puppet Agent with Puppet or not. Valid values are 'yes' 
+#  (default) and 'no'.
 # [*env*]
 #    Puppet environment this node will use. Defaults to "production".
 # [*master*]
@@ -38,23 +41,23 @@
 #
 class puppetagent
 (
-    $master = "puppet.$::domain",
+    $manage = 'yes',
+    $master = "puppet.${::domain}",
     $manage_puppet_conf = 'no',
     $env = 'production',
     $enable = false
 )
 {
 
-# Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_puppetagent', 'true') != 'false' {
+if $manage == 'yes' {
 
-    class { 'puppetagent::config':
-        master => $master,
+    class { '::puppetagent::config':
+        master             => $master,
         manage_puppet_conf => $manage_puppet_conf,
-        env => $env,
+        env                => $env,
     }
 
-    class { 'puppetagent::service':
+    class { '::puppetagent::service':
         enable => $enable,
     }
 }

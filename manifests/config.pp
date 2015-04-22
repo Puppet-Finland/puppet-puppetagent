@@ -8,20 +8,18 @@ class puppetagent::config
     $master,
     $manage_puppet_conf,
     $env
-)
+
+) inherits puppetagent::params
 {
-    include puppetagent::params
-
-
     if $manage_puppet_conf == 'yes' {
 
         file { 'puppetagent-puppet.conf':
-            name => "${::puppetagent::params::config_file}",
-            ensure => present,
+            ensure  => present,
+            name    => $::puppetagent::params::config_file,
             content => template('puppetagent/puppet.conf.erb'),
-            owner => root,
-            group => "${::puppetagent::params::admingroup}",
-            mode => 644,
+            owner   => $::os::params::adminuser,
+            group   => $::os::params::admingroup,
+            mode    => '0644',
         }
     }
 }

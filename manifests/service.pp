@@ -6,12 +6,11 @@
 class puppetagent::service
 (
     $enable
-)
-{
-    include puppetagent::params
 
+) inherits puppetagent::params
+{
     service { 'puppet':
-        name => "${::puppetagent::params::service_name}",
+        name   => $::puppetagent::params::service_name,
         enable => $enable,
     }
 }
