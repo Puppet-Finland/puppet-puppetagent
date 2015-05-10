@@ -21,6 +21,9 @@
 #   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
 #   false. If you run puppet manually or via cron you want to use false. 
 #   Defaults to false.
+# [*stringify_facts*]
+#   Convert all custom facts to strings. This is the default and only possible 
+#   behavior on Puppet < 3.8. Valid values are true (default) and false.
 #
 # == Examples
 #
@@ -43,9 +46,10 @@ class puppetagent
 (
     $manage = 'yes',
     $master = "puppet.${::domain}",
-    $manage_puppet_conf = 'no',
+    $manage_puppet_conf = 'yes',
     $env = 'production',
-    $enable = false
+    $enable = false,
+    $stringify_facts = true
 )
 {
 
@@ -55,6 +59,7 @@ if $manage == 'yes' {
         master             => $master,
         manage_puppet_conf => $manage_puppet_conf,
         env                => $env,
+        stringify_facts    => $stringify_facts,
     }
 
     class { '::puppetagent::service':

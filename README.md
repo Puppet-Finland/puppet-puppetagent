@@ -19,6 +19,7 @@ This module has been tested on
 * Debian 7 and 8
 * CentOS 6 and 7
 * FreeBSD 9 and 10
+* Fedora 21
 
 All UNIXy operating systems should work out of the box or with small 
 modifications.

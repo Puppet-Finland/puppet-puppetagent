@@ -1,8 +1,9 @@
 [main]
-ssldir=<%= scope.lookupvar('puppetagent::params::ssldir') %>
-rundir=<%= scope.lookupvar('puppetagent::params::rundir') %>
+ssldir=<%= scope['puppetagent::params::ssldir'] %>
+rundir=<%= scope['puppetagent::params::rundir'] %>
+stringify_facts=<%= scope['puppetagent::config::stringify_facts'] %>
 
 [agent]
-environment=<%= scope.lookupvar('puppetagent::config::env') %>
-server=<%= scope.lookupvar('puppetagent::config::master') %>
+environment=<%= scope['puppetagent::config::env'] %>
+server=<%= scope['puppetagent::config::master'] %>
 pluginsync=true

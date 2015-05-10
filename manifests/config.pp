@@ -7,7 +7,8 @@ class puppetagent::config
 (
     $master,
     $manage_puppet_conf,
-    $env
+    $env,
+    $stringify_facts
 
 ) inherits puppetagent::params
 {
