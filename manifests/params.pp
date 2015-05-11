@@ -21,7 +21,7 @@ class puppetagent::params {
             $admingroup = 'root'
             $shuf_base_cmd = 'shuf -n 1 -z -i 0-'
             $ssldir = '/var/lib/puppet/ssl'
-            $rundir = '/var/run/puppet'
+            $rundir = '/var/lib/puppet/run'
             $service_name = 'puppet'
         }
         'FreeBSD': {
