@@ -1,9 +1,8 @@
 [main]
-ssldir=<%= scope['puppetagent::params::ssldir'] %>
-rundir=<%= scope['puppetagent::params::rundir'] %>
-stringify_facts=<%= scope['puppetagent::config::stringify_facts'] %>
+stringify_facts=<%= @stringify_facts %>
 
 [agent]
-environment=<%= scope['puppetagent::config::env'] %>
-server=<%= scope['puppetagent::config::master'] %>
+environment=<%= @env %>
+server=<%= @master %>
 pluginsync=true
+report = true

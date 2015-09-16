@@ -14,13 +14,13 @@
 #   Minute(s) when the agent gets run. Defaults to 50.
 # [*weekday*]
 #   Weekday(s) when the agent gets run. Defaults to * (all weekdays).
-# [*maxdelay*]
-#   Maximum delay in seconds before starting the puppet run. Set sufficiently 
-#   high to prevent the puppetmaster getting overloaded with simultaneous client 
-#   connections. Defaults to 60 (seconds).
 # [*report*]
 #   What to report. Useful for reducing the amount of emails cron sends. Valid 
 #   values 'everything', 'changes' and 'errors'. Defaults to 'errors'.
+# [*splaylimit*]
+#   The amount of delay in Puppet runs. This is useful if you're running Puppet 
+#   4 Agent from cron. Example: '10m' (=10 minutes). If no value is provided,
+#   then no delay is added to puppet cronjobs.
 # [*email*]
 #   Email address where notifications are sent. Defaults to top-scope variable 
 #   $::servermonitor.
@@ -31,7 +31,6 @@
 #       hour => '3',
 #       minute => '35'
 #       weekday => '1-5',
-#       maxdelay => 600,
 #   }
 #
 class puppetagent::cron
@@ -40,19 +39,18 @@ class puppetagent::cron
     $hour = '*',
     $minute = '50',
     $weekday = '*',
-    $maxdelay = 60,
     $report = 'errors',
+    $splaylimit = undef,
     $email = $::servermonitor
 
 ) inherits puppetagent::params
 {
 
-    # On FreeBSD we need 'shuffle' to produce random numbers for sleep
-    if $::operatingsystem == 'FreeBSD' {
-        include ::shuffle
+    if $splaylimit {
+        $basecmd = "puppet agent --onetime --no-daemonize --verbose --color=false --splay --splaylimit=${splaylimit}"
+    } else {
+        $basecmd = 'puppet agent --onetime --no-daemonize --verbose --color=false'
     }
-
-    $basecmd = "sleep `${::puppetagent::params::shuf_base_cmd}${maxdelay}` && puppet agent --onetime --no-daemonize --verbose --color=false"
 
     if $report == 'everything' {
         $cron_command = $basecmd
@@ -71,6 +69,6 @@ class puppetagent::cron
         hour        => $hour,
         minute      => $minute,
         weekday     => $weekday,
-        environment => [ 'PATH=/bin:/usr/bin:/usr/local/bin', "MAILTO=${email}" ],
+        environment => [ 'PATH=/bin:/usr/bin:/usr/local/bin:/opt/puppetlabs/bin', "MAILTO=${email}" ],
     }
 }
