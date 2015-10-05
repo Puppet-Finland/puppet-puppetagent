@@ -55,7 +55,7 @@ class puppetagent::cron
     if $report == 'everything' {
         $cron_command = $basecmd
     } elsif $report == 'changes' {
-        $cron_command = "${basecmd} 2>&1|grep -v \"Info:\"|grep -v \"Finished catalog run\""
+        $cron_command = "${basecmd} 2>&1|grep -vE \"(^Info:|^Notice: Finished catalog run|^Notice: Applied catalog in)\""
     } elsif $report == 'errors' {
         $cron_command = "${basecmd} 2>&1|grep ^err"
     } else {
