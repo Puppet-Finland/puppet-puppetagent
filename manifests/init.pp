@@ -21,6 +21,9 @@
 #   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
 #   false. If you run puppet manually or via cron you want to use false. 
 #   Defaults to false.
+# [*service_ensure*]
+#   Status of the Puppet service. Valid values are 'running' and 'stopped'. 
+#   Leave this undefined to not manage service state using Pupppet.
 # [*stringify_facts*]
 #   Convert all custom facts to strings. This is the default and only possible 
 #   behavior on Puppet < 3.8. Valid values are true (default) and false.
@@ -49,6 +52,7 @@ class puppetagent
     $manage_puppet_conf = 'yes',
     $env = 'production',
     $enable = false,
+    $service_ensure = undef,
     $stringify_facts = true
 )
 {
@@ -63,6 +67,7 @@ if $manage == 'yes' {
     }
 
     class { '::puppetagent::service':
+        ensure => $service_ensure,
         enable => $enable,
     }
 }
