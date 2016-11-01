@@ -59,6 +59,8 @@ class puppetagent
 
 if $manage == 'yes' {
 
+    include ::puppetlabs
+
     class { '::puppetagent::config':
         master             => $master,
         manage_puppet_conf => $manage_puppet_conf,
