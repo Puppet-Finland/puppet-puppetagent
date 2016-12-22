@@ -17,6 +17,9 @@
 #   Whether to manage puppet.conf or not. On Puppet masters you need to say 
 #   false here. On client nodes the default value, true, is typically the 
 #   correct choice.
+# [*onboot*]
+#   Run Puppet agent once on boot. Only works on systemd distros. Valid values
+#   are true and false (default).
 # [*enable*]
 #   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
 #   false. If you run puppet manually or via cron you want to use false. 
@@ -51,6 +54,7 @@ class puppetagent
     $master = "puppet.${::domain}",
     $manage_puppet_conf = true,
     $env = 'production',
+    $onboot = false,
     $enable = false,
     $service_ensure = undef,
     $stringify_facts = true
@@ -71,6 +75,7 @@ if $manage {
     class { '::puppetagent::service':
         ensure => $service_ensure,
         enable => $enable,
+        onboot => $onboot,
     }
 }
 }

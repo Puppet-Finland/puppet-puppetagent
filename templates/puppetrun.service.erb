@@ -1,0 +1,12 @@
+### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
+
+[Unit]
+Description=puppet agent run
+After=network.target
+
+[Service]
+ExecStart=/opt/puppetlabs/puppet/bin/puppet agent --verbose --onetime --no-daemonize --no-splay --color=false
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

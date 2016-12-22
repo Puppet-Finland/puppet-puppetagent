@@ -7,6 +7,7 @@ class puppetagent::service
 (
     Optional[Enum['running', 'stopped']] $ensure,
     Boolean                              $enable,
+    Boolean                              $onboot
 
 ) inherits puppetagent::params
 {
@@ -15,4 +16,20 @@ class puppetagent::service
         name   => $::puppetagent::params::service_name,
         enable => $enable,
     }
+
+    if str2bool($::has_systemd) {
+
+        $puppetrun_ensure = $onboot ? {
+            true    => 'present',
+            false   => 'absent',
+            default => 'absent',
+        }
+
+        systemd::service_override { 'puppet-puppetrun':
+            ensure        => $puppetrun_ensure,
+            service_name  => 'puppetrun',
+            template_path => 'puppetagent/puppetrun.service.erb',
+        }
+    }
+
 }
