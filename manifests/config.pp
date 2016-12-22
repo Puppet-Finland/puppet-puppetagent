@@ -5,14 +5,14 @@
 #
 class puppetagent::config
 (
-    $master,
-    $manage_puppet_conf,
-    $env,
-    $stringify_facts
+    String  $master,
+    Boolean $manage_puppet_conf,
+    String  $env,
+    Boolean $stringify_facts
 
 ) inherits puppetagent::params
 {
-    if $manage_puppet_conf == 'yes' {
+    if $manage_puppet_conf {
 
         file { 'puppetagent-puppet.conf':
             ensure  => present,

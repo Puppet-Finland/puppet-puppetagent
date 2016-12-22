@@ -7,16 +7,16 @@
 # == Parameters
 #
 # [*manage*]
-#  Whether to manage the Puppet Agent with Puppet or not. Valid values are 'yes' 
-#  (default) and 'no'.
+#  Whether to manage the Puppet Agent with Puppet or not. Valid values are true
+#  (default) and false.
 # [*env*]
 #    Puppet environment this node will use. Defaults to "production".
 # [*master*]
 #   Puppetmaster's IP address. Defaults to "puppet.$::domain".
 # [*manage_puppet_conf*]
-#   Whether to manage puppet.conf or not. On Puppet masters you need to say 'no'
-#   here. On client nodes the default value, 'yes', is typically the correct
-#   choice.
+#   Whether to manage puppet.conf or not. On Puppet masters you need to say 
+#   false here. On client nodes the default value, true, is typically the 
+#   correct choice.
 # [*enable*]
 #   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
 #   false. If you run puppet manually or via cron you want to use false. 
@@ -47,9 +47,9 @@
 #
 class puppetagent
 (
-    $manage = 'yes',
+    $manage = true,
     $master = "puppet.${::domain}",
-    $manage_puppet_conf = 'yes',
+    $manage_puppet_conf = true,
     $env = 'production',
     $enable = false,
     $service_ensure = undef,
@@ -57,7 +57,7 @@ class puppetagent
 )
 {
 
-if $manage == 'yes' {
+if $manage {
 
     include ::puppetlabs
 

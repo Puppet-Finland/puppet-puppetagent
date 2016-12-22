@@ -35,13 +35,13 @@
 #
 class puppetagent::cron
 (
-    $ensure = 'present',
-    $hour = '*',
-    $minute = '50',
-    $weekday = '*',
-    $report = 'errors',
-    $splaylimit = undef,
-    $email = $::servermonitor
+    Enum['present','absent']              $ensure = 'present',
+    Variant[String,Integer]               $hour = '*',
+    Variant[String,Integer]               $minute = '50',
+    Variant[String,Integer]               $weekday = '*',
+    Enum['everything','changes','errors'] $report = 'errors',
+    Optional[Variant[String,Integer]]     $splaylimit = undef,
+    String                                $email = $::servermonitor
 
 ) inherits puppetagent::params
 {

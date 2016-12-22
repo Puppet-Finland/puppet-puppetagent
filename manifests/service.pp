@@ -5,8 +5,8 @@
 #
 class puppetagent::service
 (
-    $ensure,
-    $enable
+    Optional[Enum['running', 'stopped']] $ensure,
+    Boolean                              $enable,
 
 ) inherits puppetagent::params
 {
