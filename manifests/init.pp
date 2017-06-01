@@ -9,6 +9,9 @@
 # [*manage*]
 #  Whether to manage the Puppet Agent with Puppet or not. Valid values are true
 #  (default) and false.
+# [*ensure*]
+#   Status of Puppet Agent. Valid values are 'present' (default) and 'absent'.
+#   If this is set to 'absent' then the other ensure parameters have no effect.
 # [*env*]
 #    Puppet environment this node will use. Defaults to "production".
 # [*master*]
@@ -51,6 +54,7 @@
 class puppetagent
 (
     $manage = true,
+    $ensure = 'present',
     $master = "puppet.${::domain}",
     $manage_puppet_conf = true,
     $env = 'production',
@@ -65,7 +69,19 @@ if $manage {
 
     include ::puppetlabs
 
+    # Do not attempt to manage the service if we're told that Puppet Agent
+    # should not be present.
+    $l_service_ensure = $ensure ? {
+        'present' => $service_ensure,
+        'absent'  => 'stopped',
+    }
+
+    class { '::puppetagent::install':
+        ensure => $ensure,
+    }
+
     class { '::puppetagent::config':
+        ensure             => $ensure,
         master             => $master,
         manage_puppet_conf => $manage_puppet_conf,
         env                => $env,
@@ -73,7 +89,7 @@ if $manage {
     }
 
     class { '::puppetagent::service':
-        ensure => $service_ensure,
+        ensure => $l_service_ensure,
         enable => $enable,
         onboot => $onboot,
     }
