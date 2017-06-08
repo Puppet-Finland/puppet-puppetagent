@@ -11,7 +11,9 @@ class puppetagent::install
     Enum['present','absent'] $ensure
 )
 {
-    package { 'puppet-agent':
-        ensure => $ensure,
+    if $::puppetagent::params::puppetagent_available {
+        package { 'puppet-agent':
+            ensure => $ensure,
+        }
     }
 }

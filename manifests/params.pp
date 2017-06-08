@@ -18,12 +18,14 @@ class puppetagent::params {
             $service_name = 'puppet'
             # This assume we're using official Puppetlabs Puppet 4 packages
             $ssldir = '/etc/puppetlabs/puppet/ssl'
+            $puppetagent_available = true
         }
         'Debian': {
             $config_file = '/etc/puppetlabs/puppet/puppet.conf'
             $admingroup = 'root'
             $service_name = 'puppet'
             $ssldir = '/etc/puppetlabs/puppet/ssl'
+            $puppetagent_available = true
         }
         'FreeBSD': {
             $config_file = '/usr/local/etc/puppet/puppet.conf'
@@ -31,6 +33,7 @@ class puppetagent::params {
             $service_name = 'puppet'
             # There are no official Puppetlabs packages for FreeBSD
             $ssldir = '/var/puppet/ssl'
+            $puppetagent_available = false
         }
         default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
