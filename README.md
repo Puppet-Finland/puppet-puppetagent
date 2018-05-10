@@ -1,27 +1,34 @@
 # puppetagent
 
-A puppet module for configuring puppet agents
+A puppet module for configuring puppet agents and puppet agent runs from cron.
 
 # Module usage
 
-* [Class: puppetagent](manifests/init.pp)
-* [Class: puppetagent::cron](manifests/cron.pp)
+Simple usage (assumes master is "puppet.${domain}":
 
-# Dependencies
+    include ::puppetagent
 
-See [metadata.json](metadata.json).
+Customize master and environment:
 
-# Operating system support
+    class { 'puppetagent':
+      env    => 'testing',
+      master => 'puppet5.example.org',
+    }
 
-This module has been tested on
+Add puppet-agent cronjob (--no-daemonize) with default settings:
 
-* Ubuntu 12.04, 14.04
-* Debian 7 and 8
-* CentOS 6 and 7
-* FreeBSD 9 and 10
-* Fedora 21
+    include ::puppetagent::cron
 
-All UNIXy operating systems should work out of the box or with small 
-modifications.
+Customize cronjob:
 
-For details see [params.pp](manifests/params.pp).
+    class { '::puppetagent::cron':
+      ensure     => 'present',
+      report     => 'errors',
+      email      => 'monitoring@example.org',
+      hour       => 5,
+      minute     => 50,
+      splaylimit => '10m',
+    }
+
+For further details refer to [init.pp](manifests/init.pp) and 
+[cron.pp](manifests/cron.pp).
