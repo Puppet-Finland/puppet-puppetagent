@@ -30,16 +30,6 @@
 # [*service_ensure*]
 #   Status of the Puppet service. Valid values are 'running' and 'stopped'. 
 #   Leave this undefined to not manage service state using Pupppet.
-# [*stringify_facts*]
-#   Convert all custom facts to strings. This is the default and only possible 
-#   behavior on Puppet < 3.8. Valid values are true (default) and false.
-#
-# == Examples
-#
-#   class { 'puppetagent': 
-#       env => 'testing',
-#       master => 'puppet.qantar.net',
-#   }
 #
 # == Authors
 #
@@ -53,15 +43,14 @@
 #
 class puppetagent
 (
-    $manage = true,
-    $ensure = 'present',
-    $master = "puppet.${::domain}",
-    $manage_puppet_conf = true,
-    $env = 'production',
-    $onboot = false,
-    $enable = false,
-    $service_ensure = undef,
-    $stringify_facts = true
+    Boolean                  $manage = true,
+    Enum['present','absent'] $ensure = 'present',
+    String                   $master = "puppet.${::domain}",
+    Boolean                  $manage_puppet_conf = true,
+    String                   $env = 'production',
+    Boolean                  $onboot = false,
+    Boolean                  $enable = false,
+    Optional                 $service_ensure = undef
 )
 {
 
@@ -85,7 +74,6 @@ if $manage {
         master             => $master,
         manage_puppet_conf => $manage_puppet_conf,
         env                => $env,
-        stringify_facts    => $stringify_facts,
     }
 
     class { '::puppetagent::service':

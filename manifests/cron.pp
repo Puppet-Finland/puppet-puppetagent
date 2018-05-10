@@ -25,14 +25,6 @@
 #   Email address where notifications are sent. Defaults to top-scope variable 
 #   $::servermonitor.
 #
-# == Examples
-#
-#   class { 'puppetagent::cron':
-#       hour => '3',
-#       minute => '35'
-#       weekday => '1-5',
-#   }
-#
 class puppetagent::cron
 (
     Enum['present','absent']              $ensure = 'present',

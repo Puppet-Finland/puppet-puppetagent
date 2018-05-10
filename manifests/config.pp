@@ -8,11 +8,9 @@ class puppetagent::config
     Enum['present','absent'] $ensure,
     String                   $master,
     Boolean                  $manage_puppet_conf,
-    String                   $env,
-    Boolean                  $stringify_facts
+    String                   $env
 
-) inherits puppetagent::params
-{
+) inherits puppetagent::params {
     if $manage_puppet_conf {
 
         file { 'puppetagent-puppet.conf':
