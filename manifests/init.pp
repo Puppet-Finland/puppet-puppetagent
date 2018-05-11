@@ -50,7 +50,7 @@ class puppetagent
     String                   $env = 'production',
     Boolean                  $onboot = false,
     Boolean                  $service_enable = false,
-    Optional                 $service_ensure = undef
+    Optional[String]         $service_ensure = undef
 )
 {
 
