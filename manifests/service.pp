@@ -31,5 +31,4 @@ class puppetagent::service
             template_path => 'puppetagent/puppetrun.service.erb',
         }
     }
-
 }

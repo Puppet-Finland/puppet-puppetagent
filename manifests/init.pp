@@ -23,7 +23,7 @@
 # [*onboot*]
 #   Run Puppet agent once on boot. Only works on systemd distros. Valid values
 #   are true and false (default).
-# [*enable*]
+# [*service_enable*]
 #   Whether to enable the puppet agent (daemon) on boot. Valid values true and 
 #   false. If you run puppet manually or via cron you want to use false. 
 #   Defaults to false.
@@ -49,7 +49,7 @@ class puppetagent
     Boolean                  $manage_puppet_conf = true,
     String                   $env = 'production',
     Boolean                  $onboot = false,
-    Boolean                  $enable = false,
+    Boolean                  $service_enable = false,
     Optional                 $service_ensure = undef
 )
 {
@@ -78,7 +78,7 @@ if $manage {
 
     class { '::puppetagent::service':
         ensure => $l_service_ensure,
-        enable => $enable,
+        enable => $service_enable,
         onboot => $onboot,
     }
 }
