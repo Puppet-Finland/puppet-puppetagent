@@ -1,6 +1,6 @@
 {
   "name": "puppetfinland-puppetagent",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Puppet-Finland team",
   "summary": "Configure puppet-agent and optionally add puppet run cronjob",
   "license": "BSD-2-Clause",
