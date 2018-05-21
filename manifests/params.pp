@@ -35,6 +35,9 @@ class puppetagent::params {
             $ssldir = '/var/puppet/ssl'
             $puppetagent_available = false
         }
+        'windows': {
+            $ssldir = 'C:\Program Files\Puppet Labs\puppet\puppet\ssl'
+        }
         default: {
             fail("Unsupported operating system: ${::osfamily}/${::operatingsystem}")
         }

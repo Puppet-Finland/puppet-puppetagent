@@ -54,6 +54,13 @@ class puppetagent
 )
 {
 
+# We don't support configuring Puppet Agent on Windows, but we do want to use 
+# some of the parameters in other modules. Hence fail here rather than in 
+# params.pp.
+if $::osfamily == 'windows' {
+    fail('ERROR: Windows is not support is limited to ::puppetagent::params.pp!')
+}
+
 if $manage {
 
     include ::puppetlabs
