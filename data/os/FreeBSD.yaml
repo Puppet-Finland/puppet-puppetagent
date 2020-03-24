@@ -1,0 +1,2 @@
+puppetagent::monit::last_run_summary: '/var/puppet/state/last_run_summary.yaml'
+
