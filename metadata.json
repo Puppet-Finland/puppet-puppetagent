@@ -10,10 +10,6 @@
     {
       "name": "puppetfinland/os",
       "version_requirement": ">= 0.5.6"
-    },
-    {
-      "name": "puppetfinland/puppetlabs",
-      "version_requirement": ">= 0.1.0"
     }
   ],
   "operatingsystem_support": [

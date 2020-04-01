@@ -63,8 +63,6 @@ if $::osfamily == 'windows' {
 
 if $manage {
 
-    include ::puppetlabs
-
     # Do not attempt to manage the service if we're told that Puppet Agent
     # should not be present.
     $l_service_ensure = $ensure ? {
