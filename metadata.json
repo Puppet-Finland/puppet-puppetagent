@@ -9,7 +9,7 @@
   "dependencies": [
     {
       "name": "puppetfinland/os",
-      "version_requirement": ">= 0.5.6"
+      "version_requirement": ">= 0.5.6 < 1.0.0"
     }
   ],
   "operatingsystem_support": [

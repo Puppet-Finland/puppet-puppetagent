@@ -1,4 +1,4 @@
 ### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
 #
 check file last_puppet_run with path <%= scope['puppetagent::monit::last_run_summary'] %>
-  if mtime older than <%= scope['puppetagent::monit::last_run_max_minutes'] %> minutes then <%= scope['puppetagent::monit::alert_action'] %>
+  <%= scope['puppetagent::monit::mtime_comparison'] %> <%= scope['puppetagent::monit::last_run_max_minutes'] %> minutes then <%= scope['puppetagent::monit::alert_action'] %>

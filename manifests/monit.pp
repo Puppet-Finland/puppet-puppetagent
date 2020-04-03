@@ -3,6 +3,10 @@
 #
 # @param last_run_summary location of the last_run_summary.yaml file
 #
+# @param mtime_comparison
+#   monit syntax for comparing modification time; generally not set manually
+#   but comes from module-level Hiera
+#
 # @param last_run_max_minutes maximum elapsed time from previous Puppet run before alerting
 #
 # @param exec_cmd
@@ -35,6 +39,7 @@
 class puppetagent::monit
 (
   String           $last_run_summary,
+  String           $mtime_comparison,
   Integer          $last_run_max_minutes = 60,
   Optional[String] $exec_cmd = undef
 )
