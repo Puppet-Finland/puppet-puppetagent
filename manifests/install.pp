@@ -9,7 +9,8 @@
 class puppetagent::install
 (
     Enum['present','absent'] $ensure
-)
+
+) inherits puppetagent::params
 {
     if $::puppetagent::params::puppetagent_available {
         package { 'puppet-agent':
