@@ -17,7 +17,7 @@ class puppetagent::service
         enable => $enable,
     }
 
-    if str2bool($::has_systemd) {
+    if $::systemd {
 
         $puppetrun_ensure = $onboot ? {
             true    => 'present',
@@ -25,10 +25,9 @@ class puppetagent::service
             default => 'absent',
         }
 
-        systemd::service_override { 'puppet-puppetrun':
-            ensure        => $puppetrun_ensure,
-            service_name  => 'puppetrun',
-            template_path => 'puppetagent/puppetrun.service.erb',
+        ::systemd::unit_file { 'puppetrun.service':
+            ensure  => $puppetrun_ensure,
+            content => template('puppetagent/puppetrun.service.erb')
         }
     }
 }
